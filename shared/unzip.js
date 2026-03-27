@@ -13,20 +13,15 @@
 
 'use strict';
 
-const fs = require('fs');
-
 const extractZip = require('extract-zip');
 
 const unzip = ({ from, to }) => {
-	return new Promise((resolve, reject) => {
-		extractZip(from, { dir: to }, (error) => {
-			if (error) {
-				console.log(error);
-				reject();
-			}
-			resolve();
-		});
+	const promise = extractZip(from, { dir: to });
+	const caught = promise.catch((e) => {
+		console.log(e);
+		throw e;
 	});
+	return caught;
 };
 
 module.exports = unzip;
