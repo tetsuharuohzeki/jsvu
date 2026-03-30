@@ -13,7 +13,7 @@
 
 'use strict';
 
-const getMacOsName = require('./get-macos-name.js');
+const { getMacOsName } = require('./get-macos-name.mjs');
 
 const predictUrl = (version, os) => {
 	switch (os) {

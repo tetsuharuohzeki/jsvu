@@ -15,7 +15,7 @@
 
 const get = require('../../shared/get.js');
 const matchResponse = require('../../shared/match-response.js');
-const getMacOsName = require('./get-macos-name.js');
+const { getMacOsName } = require('./get-macos-name.mjs');
 
 const hashToRevision = async (hash) => {
 	const revision = await matchResponse({
