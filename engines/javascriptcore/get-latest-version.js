@@ -14,7 +14,7 @@
 'use strict';
 
 const matchResponse = require('../../shared/match-response.js');
-const { getMacOsName } = require('./get-macos-name.mjs');
+const { getMacOsName, MacOsName } = require('./get-macos-name.mjs');
 
 const hashToRevision = async (hash) => {
     const revision = await matchResponse({
@@ -63,33 +63,14 @@ const getLatestVersion = (os) => {
         case 'mac64':
         case 'mac64arm': {
             const name = getMacOsName();
-            if (name === 'ventura') {
-                // Builder name: Apple-Ventura-Release-Build
-                // https://build.webkit.org/#/builders/706
-                // This publishes universal x86_64 + arm64 binaries.
-                return getLatestRevisionFromBuilder(706);
-            } else if (name === 'monterey') {
-                // Builder name: Apple-Monterey-Release-Build
-                // https://build.webkit.org/#/builders/368
-                // This publishes universal x86_64 + arm64 binaries.
-                return getLatestRevisionFromBuilder(368);
-            } else if (name === 'sonoma') {
-                // Builder name: Apple-Sonoma-Release-Build
-                // https://build.webkit.org/#/builders/938
-                // This publishes universal x86_64 + arm64 binaries.
-                return getLatestRevisionFromBuilder(938);
-            } else if (name === 'sequoia') {
-                // Builder name: Apple-Sequoia-Release-Build
-                // https://build.webkit.org/#/builders/1223
-                // This publishes universal x86_64 + arm64 binaries.
-                return getLatestRevisionFromBuilder(1223);
-            } else if (name === 'tahoe') {
-                // Builder name: Apple-Sequoia-Release-Build
-                // https://build.webkit.org/#/builders/1715
-                // This publishes universal x86_64 + arm64 binaries.
-                return getLatestRevisionFromBuilder(1715);
-            } else {
-                throw new Error(`Unknown MacOS name: ${name}.`);
+            switch (name) {
+                case MacOsName.Tahoe:
+                    // Builder name: Apple-Sequoia-Release-Build
+                    // https://build.webkit.org/#/builders/1715
+                    // This publishes universal x86_64 + arm64 binaries.
+                    return getLatestRevisionFromBuilder(1715);
+                default:
+                    throw new Error(`Unknown MacOS name: ${name}.`);
             }
         }
         default: {
