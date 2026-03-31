@@ -14,36 +14,33 @@
 'use strict';
 
 const predictFileName = (os) => {
-	switch (os) {
-		case 'mac64':
-		case 'mac64arm': {
-			return 'mac';
-		}
-		case 'linux32': {
-			return 'linux-i686';
-		}
-		case 'linux64': {
-			return 'linux-x86_64';
-		}
-		case 'win32': {
-			return 'win32';
-		}
-		case 'win64': {
-			return 'win64';
-		}
-		default: {
-			throw new Error(
-				`SpiderMonkey does not offer precompiled ${os} binaries.`
-			);
-		}
-	}
+    switch (os) {
+        case 'mac64':
+        case 'mac64arm': {
+            return 'mac';
+        }
+        case 'linux32': {
+            return 'linux-i686';
+        }
+        case 'linux64': {
+            return 'linux-x86_64';
+        }
+        case 'win32': {
+            return 'win32';
+        }
+        case 'win64': {
+            return 'win64';
+        }
+        default: {
+            throw new Error(`SpiderMonkey does not offer precompiled ${os} binaries.`);
+        }
+    }
 };
 
 const predictUrl = (version, os) => {
-	const fileName = predictFileName(os);
-	const url = `https://archive.mozilla.org/pub/firefox/releases/${
-		version}/jsshell/jsshell-${fileName}.zip`;
-	return url;
+    const fileName = predictFileName(os);
+    const url = `https://archive.mozilla.org/pub/firefox/releases/${version}/jsshell/jsshell-${fileName}.zip`;
+    return url;
 };
 
 module.exports = predictUrl;

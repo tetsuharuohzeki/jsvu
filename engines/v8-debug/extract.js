@@ -19,74 +19,73 @@ const { Installer } = require('../../shared/installer.js');
 const unzip = require('../../shared/unzip.js');
 
 const extract = ({ filePath, binary, os }) => {
-	return new Promise(async (resolve, reject) => {
-		const tmpPath = path.dirname(filePath);
-		await unzip({
-			from: filePath,
-			to: tmpPath,
-		});
-		const installer = new Installer({
-			engine: binary,
-			path: tmpPath,
-		});
-		installer.installLibrary('icudtl.dat');
-		const hasNativesBlob = installer.installLibrary('natives_blob.bin');
-		installer.installLibrary('snapshot_blob.bin');
-		switch (os) {
-			case 'mac64':
-			case 'mac64arm': {
-				installer.installLibraryGlob('*.dylib');
-				installer.installBinary({ 'd8': binary }, { symlink: false });
-				installer.installScript({
-					name: binary,
-					generateScript: (targetPath) => {
-						const nativesBlobArg = hasNativesBlob ? ` --natives_blob="${targetPath}/natives_blob.bin"` : '';
-						return `
+    return new Promise(async (resolve, reject) => {
+        const tmpPath = path.dirname(filePath);
+        await unzip({
+            from: filePath,
+            to: tmpPath,
+        });
+        const installer = new Installer({
+            engine: binary,
+            path: tmpPath,
+        });
+        installer.installLibrary('icudtl.dat');
+        const hasNativesBlob = installer.installLibrary('natives_blob.bin');
+        installer.installLibrary('snapshot_blob.bin');
+        switch (os) {
+            case 'mac64':
+            case 'mac64arm': {
+                installer.installLibraryGlob('*.dylib');
+                installer.installBinary({ d8: binary }, { symlink: false });
+                installer.installScript({
+                    name: binary,
+                    generateScript: (targetPath) => {
+                        const nativesBlobArg = hasNativesBlob ? ` --natives_blob="${targetPath}/natives_blob.bin"` : '';
+                        return `
 							#!/usr/bin/env bash
 							"${targetPath}/${binary}"${nativesBlobArg} --snapshot_blob="${targetPath}/snapshot_blob.bin" "$@"
 						`;
-					}
-				});
-				break;
-			}
-			case 'linux32':
-			case 'linux64': {
-				installer.installLibraryGlob('*.so');
-				installer.installBinary({ 'd8': binary }, { symlink: false });
-				installer.installScript({
-					name: binary,
-					generateScript: (targetPath) => {
-						const nativesBlobArg = hasNativesBlob ? ` --natives_blob="${targetPath}/natives_blob.bin"` : '';
-						return `
+                    },
+                });
+                break;
+            }
+            case 'linux32':
+            case 'linux64': {
+                installer.installLibraryGlob('*.so');
+                installer.installBinary({ d8: binary }, { symlink: false });
+                installer.installScript({
+                    name: binary,
+                    generateScript: (targetPath) => {
+                        const nativesBlobArg = hasNativesBlob ? ` --natives_blob="${targetPath}/natives_blob.bin"` : '';
+                        return `
 							#!/usr/bin/env bash
 							"${targetPath}/${binary}"${nativesBlobArg} --snapshot_blob="${targetPath}/snapshot_blob.bin" "$@"
 						`;
-					}
-				});
-				break;
-			}
-			case 'win32':
-			case 'win64': {
-				installer.installLibraryGlob('*.dll');
-				installer.installBinary(
-					{ 'd8.exe': `${binary}.exe` },
-					{ symlink: false }
-				);
-				installer.installScript({
-					name: `${binary}.cmd`,
-					generateScript: (targetPath) => {
-						const nativesBlobArg = hasNativesBlob ? ` --natives_blob="${targetPath}\\natives_blob.bin"` : '';
-						return `
+                    },
+                });
+                break;
+            }
+            case 'win32':
+            case 'win64': {
+                installer.installLibraryGlob('*.dll');
+                installer.installBinary({ 'd8.exe': `${binary}.exe` }, { symlink: false });
+                installer.installScript({
+                    name: `${binary}.cmd`,
+                    generateScript: (targetPath) => {
+                        const nativesBlobArg = hasNativesBlob
+                            ? ` --natives_blob="${targetPath}\\natives_blob.bin"`
+                            : '';
+                        return `
 							@echo off
 							"${targetPath}\\${binary}.exe"${nativesBlobArg} --snapshot_blob="${targetPath}\\snapshot_blob.bin" %*
 						`;
-					}
-				});
-				break;
-			}
-		}
-		resolve();
-	});
+                    },
+                });
+                break;
+            }
+        }
+        resolve();
+    });
 };
 
 module.exports = extract;

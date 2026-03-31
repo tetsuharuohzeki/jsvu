@@ -22,55 +22,52 @@ const { Installer } = require('../../shared/installer.js');
 const unzip = require('../../shared/unzip.js');
 
 const extract = ({ filePath, binary, alias, os }) => {
-	return new Promise(async (resolve, reject) => {
-		const tmpPath = path.dirname(filePath);
-		if (os.startsWith('win')) {
-			await unzip({
-				from: filePath,
-				to: tmpPath,
-			});
-		} else {
-			await tar.extract({
-				file: filePath,
-				cwd: tmpPath,
-			});
-		}
-		const installer = new Installer({
-			engine: binary,
-			path: tmpPath,
-		});
-		switch (os) {
-			case 'mac64':
-			case 'linux64': {
-				const directoryName = fs.readdirSync(tmpPath).find(file => file.startsWith('graaljs'));
-				const executableName = `${directoryName}/bin/js`;
-				installer.installBinary(executableName, { symlink: false });
-				installer.installLibraryGlob(`${directoryName}/lib/*.so`);
-				installer.installLibraryGlob(`${directoryName}/modules/*.jar`);
-				installer.installBinarySymlink({ [executableName]: binary });
-				break;
-			}
-			case 'win64': {
-				const directoryName = fs.readdirSync(tmpPath).find(file => file.startsWith('graaljs'));
-				const executableName = `${directoryName}\\bin\\js.exe`;
-				installer.installBinary(
-					{ [executableName]: `${binary}.exe` },
-					{ symlink: false }
-				);
-				installer.installScript({
-					name: `${binary}.cmd`,
-					generateScript: (targetPath) => {
-						return `
+    return new Promise(async (resolve, reject) => {
+        const tmpPath = path.dirname(filePath);
+        if (os.startsWith('win')) {
+            await unzip({
+                from: filePath,
+                to: tmpPath,
+            });
+        } else {
+            await tar.extract({
+                file: filePath,
+                cwd: tmpPath,
+            });
+        }
+        const installer = new Installer({
+            engine: binary,
+            path: tmpPath,
+        });
+        switch (os) {
+            case 'mac64':
+            case 'linux64': {
+                const directoryName = fs.readdirSync(tmpPath).find((file) => file.startsWith('graaljs'));
+                const executableName = `${directoryName}/bin/js`;
+                installer.installBinary(executableName, { symlink: false });
+                installer.installLibraryGlob(`${directoryName}/lib/*.so`);
+                installer.installLibraryGlob(`${directoryName}/modules/*.jar`);
+                installer.installBinarySymlink({ [executableName]: binary });
+                break;
+            }
+            case 'win64': {
+                const directoryName = fs.readdirSync(tmpPath).find((file) => file.startsWith('graaljs'));
+                const executableName = `${directoryName}\\bin\\js.exe`;
+                installer.installBinary({ [executableName]: `${binary}.exe` }, { symlink: false });
+                installer.installScript({
+                    name: `${binary}.cmd`,
+                    generateScript: (targetPath) => {
+                        return `
 							@echo off
 							"${targetPath}\\${binary}.exe" %*
 						`;
-					}
-				});
-				break;
-			}
-		}
-		resolve();
-	});
+                    },
+                });
+                break;
+            }
+        }
+        resolve();
+    });
 };
 
 module.exports = extract;

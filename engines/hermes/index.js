@@ -14,7 +14,7 @@
 'use strict';
 
 module.exports = {
-	name: 'Hermes',
-	id: 'hermes',
-	alias: false,
+    name: 'Hermes',
+    id: 'hermes',
+    alias: false,
 };

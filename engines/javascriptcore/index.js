@@ -14,7 +14,7 @@
 'use strict';
 
 module.exports = {
-	name: 'JavaScriptCore',
-	id: 'javascriptcore',
-	alias: 'jsc',
+    name: 'JavaScriptCore',
+    id: 'javascriptcore',
+    alias: 'jsc',
 };

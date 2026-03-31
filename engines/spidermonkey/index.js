@@ -14,7 +14,7 @@
 'use strict';
 
 module.exports = {
-	name: 'SpiderMonkey',
-	id: 'spidermonkey',
-	alias: 'sm',
+    name: 'SpiderMonkey',
+    id: 'spidermonkey',
+    alias: 'sm',
 };

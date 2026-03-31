@@ -22,15 +22,13 @@ const config = require('../../shared/config.js');
 const jsvuBinPath = config.binPath;
 
 const test = async ({ binary }) => {
-	const path = tempy.file();
-	const program = `print('Hi!');\n`;
-	fs.writeFileSync(path, program);
-	console.assert(
-		(await execa(`${jsvuBinPath}/${binary}`, [path])).stdout === 'Hi!'
-	);
-	const out = (await execa(`${jsvuBinPath}/${binary}`, ['-help'])).stdout;
-	console.assert(out.includes('Hermes driver'));
-	// TODO: Test hermes-repl <<< 'print("Hi!");', maybe?
+    const path = tempy.file();
+    const program = `print('Hi!');\n`;
+    fs.writeFileSync(path, program);
+    console.assert((await execa(`${jsvuBinPath}/${binary}`, [path])).stdout === 'Hi!');
+    const out = (await execa(`${jsvuBinPath}/${binary}`, ['-help'])).stdout;
+    console.assert(out.includes('Hermes driver'));
+    // TODO: Test hermes-repl <<< 'print("Hi!");', maybe?
 };
 
 module.exports = test;

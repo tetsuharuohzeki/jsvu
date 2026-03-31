@@ -14,7 +14,7 @@
 'use strict';
 
 module.exports = {
-	name: 'V8 debug',
-	id: 'v8-debug',
-	alias: false,
+    name: 'V8 debug',
+    id: 'v8-debug',
+    alias: false,
 };

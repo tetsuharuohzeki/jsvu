@@ -16,11 +16,9 @@
 const predictFileName = require('./predict-file-name.js');
 
 const predictUrl = (version, os) => {
-	const fileName = predictFileName(os);
-	const url =
-		`https://storage.googleapis.com/chromium-v8/official/canary/v8-${
-			fileName}-rel-${version}.zip`;
-	return url;
+    const fileName = predictFileName(os);
+    const url = `https://storage.googleapis.com/chromium-v8/official/canary/v8-${fileName}-rel-${version}.zip`;
+    return url;
 };
 
 module.exports = predictUrl;

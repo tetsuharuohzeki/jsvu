@@ -21,39 +21,39 @@ const ProgressBar = require('progress');
 const tempy = require('tempy');
 
 async function download2(url) {
-	const res = await fetch(url);
-	if (!res.ok) {
-		throw new Error(`Download error: .status=${res.status}`);
-	}
+    const res = await fetch(url);
+    if (!res.ok) {
+        throw new Error(`Download error: .status=${res.status}`);
+    }
 
-	const bar = new ProgressBar('  [:bar] :percent', {
-		complete: '=',
-		incomplete: ' ',
-		width: 72,
-		total: 100,
-	});
-	const totalSize = res.headers.get('content-length');
-	let recievedSize = 0;
+    const bar = new ProgressBar('  [:bar] :percent', {
+        complete: '=',
+        incomplete: ' ',
+        width: 72,
+        total: 100,
+    });
+    const totalSize = res.headers.get('content-length');
+    let recievedSize = 0;
 
-	const filePath = tempy.file({
-		name: 'jsvutmpf',
-	});
-	const fileTo = fs.createWriteStream(filePath)
-	const body = res.body;
-	const bodyStream = Readable.fromWeb(body);
+    const filePath = tempy.file({
+        name: 'jsvutmpf',
+    });
+    const fileTo = fs.createWriteStream(filePath);
+    const body = res.body;
+    const bodyStream = Readable.fromWeb(body);
 
-	bodyStream.on('data', (data) => {
-		recievedSize += data.length;
-		const percent = recievedSize / totalSize;
-		bar.update(percent);
-	});
+    bodyStream.on('data', (data) => {
+        recievedSize += data.length;
+        const percent = recievedSize / totalSize;
+        bar.update(percent);
+    });
 
-	// Clear the progress bar.
-	console.log('\x1B[1A\x1B[2K\x1B[1A');
+    // Clear the progress bar.
+    console.log('\x1B[1A\x1B[2K\x1B[1A');
 
-	const writer = bodyStream.pipe(fileTo);
-	await finished(writer);
-	return filePath;
+    const writer = bodyStream.pipe(fileTo);
+    await finished(writer);
+    return filePath;
 }
 
 module.exports = download2;

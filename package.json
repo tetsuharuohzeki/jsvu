@@ -21,6 +21,7 @@
 		"node": ">=18.0.0"
 	},
 	"scripts": {
+		"format": "prettier --write '**/*.js'",
 		"test": "echo 'Use `npm run test-$os` where `$os` reflects your system.'; echo 'See `npm run` for the full list.' && exit 1",
 		"test-mac64": "npm link; jsvu --os=mac64 --engines=all && echo '{\"os\":\"mac64\",\"engines\":[\"hermes\",\"javascriptcore\",\"spidermonkey\",\"v8\"],\"javascriptcore\":\"0\",\"spidermonkey\":\"0\",\"v8\":\"0\"}' > ~/.jsvu/status.json && jsvu",
 		"test-mac64arm": "npm link; jsvu --os=mac64arm --engines=all && echo '{\"os\":\"mac64arm\",\"engines\":[\"hermes\",\"javascriptcore\",\"spidermonkey\",\"v8\"],\"javascriptcore\":\"0\",\"spidermonkey\":\"0\",\"v8\":\"0\"}' > ~/.jsvu/status.json && jsvu",
@@ -56,5 +57,8 @@
 		"tildify": "^2.0.0",
 		"untildify": "^4.0.0",
 		"update-notifier": "^3.0.1"
+	},
+	"devDependencies": {
+		"prettier": "^3.8.1"
 	}
 }

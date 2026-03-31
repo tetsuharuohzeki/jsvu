@@ -16,7 +16,7 @@
 const untildify = require('untildify');
 
 module.exports = {
-	path: untildify('~/.jsvu'),
-	binPath: untildify('~/.jsvu/bin'),
-	os: 'mac',
+    path: untildify('~/.jsvu'),
+    binPath: untildify('~/.jsvu/bin'),
+    os: 'mac',
 };

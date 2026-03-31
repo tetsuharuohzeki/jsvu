@@ -19,35 +19,32 @@ const { Installer } = require('../../shared/installer.js');
 const unzip = require('../../shared/unzip.js');
 
 const extract = ({ filePath, binary, os }) => {
-	return new Promise(async (resolve, reject) => {
-		const tmpPath = path.dirname(filePath);
-		await unzip({
-			from: filePath,
-			to: tmpPath,
-		});
-		const installer = new Installer({
-			engine: binary,
-			path: tmpPath,
-		});
-		if (os.startsWith('win')) {
-			installer.installBinary(
-				{ 'xst.exe': `${binary}.exe` },
-				{ symlink: false }
-			);
-			installer.installScript({
-				name: `${binary}.cmd`,
-				generateScript: (targetPath) => {
-					return `
+    return new Promise(async (resolve, reject) => {
+        const tmpPath = path.dirname(filePath);
+        await unzip({
+            from: filePath,
+            to: tmpPath,
+        });
+        const installer = new Installer({
+            engine: binary,
+            path: tmpPath,
+        });
+        if (os.startsWith('win')) {
+            installer.installBinary({ 'xst.exe': `${binary}.exe` }, { symlink: false });
+            installer.installScript({
+                name: `${binary}.cmd`,
+                generateScript: (targetPath) => {
+                    return `
 						@echo off
 						"${targetPath}\\${binary}.exe" %*
 					`;
-				}
-			});
-		} else {
-			installer.installBinary({ 'xst': binary }, { symlink: true });
-		}
-		resolve();
-	});
+                },
+            });
+        } else {
+            installer.installBinary({ xst: binary }, { symlink: true });
+        }
+        resolve();
+    });
 };
 
 module.exports = extract;

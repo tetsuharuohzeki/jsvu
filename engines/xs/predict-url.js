@@ -14,34 +14,32 @@
 'use strict';
 
 const predictFileName = (os) => {
-	switch (os) {
-		case 'mac64': {
-			return 'mac64';
-		}
-		case 'mac64arm':{
-			return 'mac64arm';
-		}
-		case 'linux32': {
-			return 'lin32';
-		}
-		case 'linux64': {
-			return 'lin64';
-		}
-		case 'win64': {
-			return 'win64';
-		}
-		default: {
-			throw new Error(
-				`XS does not offer precompiled ${os} binaries.`
-			);
-		}
-	}
+    switch (os) {
+        case 'mac64': {
+            return 'mac64';
+        }
+        case 'mac64arm': {
+            return 'mac64arm';
+        }
+        case 'linux32': {
+            return 'lin32';
+        }
+        case 'linux64': {
+            return 'lin64';
+        }
+        case 'win64': {
+            return 'win64';
+        }
+        default: {
+            throw new Error(`XS does not offer precompiled ${os} binaries.`);
+        }
+    }
 };
 
 const predictUrl = (version, os) => {
-	const fileName = predictFileName(os);
-	const url = `https://github.com/Moddable-OpenSource/moddable/releases/download/${version}/xst-${fileName}.zip`;
-	return url;
+    const fileName = predictFileName(os);
+    const url = `https://github.com/Moddable-OpenSource/moddable/releases/download/${version}/xst-${fileName}.zip`;
+    return url;
 };
 
 module.exports = predictUrl;

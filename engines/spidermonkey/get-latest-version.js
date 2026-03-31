@@ -16,35 +16,35 @@
 const get = require('../../shared/get.js');
 
 const getLatestVersion = () => {
-	// Note: It’d be nice to just use
-	// https://product-details.mozilla.org/1.0/firefox_versions.json
-	// but it doesn’t seem to be as up-to-date. At the time of writing
-	// it lists v58.0b4 instead of v58.0b5, whereas the resource below
-	// does include v58.0b5. 🤷🏼‍♂️
-	const url = 'https://product-details.mozilla.org/1.0/firefox_history_development_releases.json';
-	return new Promise(async (resolve, reject) => {
-		try {
-			const response = await get(url, {
-				json: true
-			});
-			const data = response.body;
-			// Don’t rely on the upstream sort order.
-			// https://github.com/GoogleChromeLabs/jsvu/issues/65
-			let latestVersion = 0;
-			let latestTimestamp = 0;
-			for (const [key, value] of Object.entries(data)) {
-				const timestamp = +new Date(value);
-				if (latestTimestamp < timestamp) {
-					latestTimestamp = timestamp;
-					latestVersion = key;
-				}
-			}
-			const version = latestVersion;
-			resolve(version);
-		} catch (error) {
-			reject(error.response.body);
-		}
-	});
+    // Note: It’d be nice to just use
+    // https://product-details.mozilla.org/1.0/firefox_versions.json
+    // but it doesn’t seem to be as up-to-date. At the time of writing
+    // it lists v58.0b4 instead of v58.0b5, whereas the resource below
+    // does include v58.0b5. 🤷🏼‍♂️
+    const url = 'https://product-details.mozilla.org/1.0/firefox_history_development_releases.json';
+    return new Promise(async (resolve, reject) => {
+        try {
+            const response = await get(url, {
+                json: true,
+            });
+            const data = response.body;
+            // Don’t rely on the upstream sort order.
+            // https://github.com/GoogleChromeLabs/jsvu/issues/65
+            let latestVersion = 0;
+            let latestTimestamp = 0;
+            for (const [key, value] of Object.entries(data)) {
+                const timestamp = +new Date(value);
+                if (latestTimestamp < timestamp) {
+                    latestTimestamp = timestamp;
+                    latestVersion = key;
+                }
+            }
+            const version = latestVersion;
+            resolve(version);
+        } catch (error) {
+            reject(error.response.body);
+        }
+    });
 };
 
 module.exports = getLatestVersion;

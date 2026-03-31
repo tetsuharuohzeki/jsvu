@@ -14,7 +14,7 @@
 'use strict';
 
 module.exports = {
-	name: 'QuickJS',
-	id: 'quickjs',
-	alias: false,
+    name: 'QuickJS',
+    id: 'quickjs',
+    alias: false,
 };

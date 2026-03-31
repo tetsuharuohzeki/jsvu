@@ -16,24 +16,26 @@
 const chalk = require('chalk');
 
 const log = {
-	failure: (message) => {
-		console.log(`${chalk.red('✖')} ${message}`);
-	},
-	start: (message) => {
-		console.log(`${chalk.yellow('❯')} ${message}`);
-	},
-	success: (message) => {
-		console.log(`${chalk.green('✔')} ${message}`);
-	},
-	updateSuccess: (message) => {
-		console.log(`\x1B[1A\x1B[K${chalk.green('✔')} ${message}`);
-	},
-	banner: (version) => {
-		const highlight = chalk.bold.hex('#859901');
-		console.log(`📦 jsvu v${version} — the ${highlight('J')}ava${
-			highlight('S')}cript engine ${highlight('V')}ersion ${
-			highlight('U')}pdater 📦`);
-	},
+    failure: (message) => {
+        console.log(`${chalk.red('✖')} ${message}`);
+    },
+    start: (message) => {
+        console.log(`${chalk.yellow('❯')} ${message}`);
+    },
+    success: (message) => {
+        console.log(`${chalk.green('✔')} ${message}`);
+    },
+    updateSuccess: (message) => {
+        console.log(`\x1B[1A\x1B[K${chalk.green('✔')} ${message}`);
+    },
+    banner: (version) => {
+        const highlight = chalk.bold.hex('#859901');
+        console.log(
+            `📦 jsvu v${version} — the ${highlight('J')}ava${highlight(
+                'S'
+            )}cript engine ${highlight('V')}ersion ${highlight('U')}pdater 📦`
+        );
+    },
 };
 
 module.exports = log;

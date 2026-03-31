@@ -16,13 +16,13 @@
 const get = require('../../shared/get.js');
 
 const getLatestVersion = async () => {
-	const url = 'https://api.github.com/repos/oracle/graaljs/releases/latest';
-	const response = await get(url, {
-		json: true,
-	});
-	const data = response.body;
-	const version = data.tag_name.replace(/^(vm-|graal-)/, ''); // Strip prefix.
-	return version;
+    const url = 'https://api.github.com/repos/oracle/graaljs/releases/latest';
+    const response = await get(url, {
+        json: true,
+    });
+    const data = response.body;
+    const version = data.tag_name.replace(/^(vm-|graal-)/, ''); // Strip prefix.
+    return version;
 };
 
 module.exports = getLatestVersion;

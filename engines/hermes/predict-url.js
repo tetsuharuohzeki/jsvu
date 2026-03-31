@@ -14,32 +14,30 @@
 'use strict';
 
 const predictFileName = (os) => {
-	switch (os) {
-		case 'mac64':
-		case 'mac64arm': {
-			return 'darwin';
-		}
-		case 'linux64': {
-			return 'linux';
-		}
-		case 'win64': {
-			return 'windows';
-		}
-		default: {
-			throw new Error(
-				`Hermes does not offer precompiled ${os} binaries.`
-			);
-		}
-	}
+    switch (os) {
+        case 'mac64':
+        case 'mac64arm': {
+            return 'darwin';
+        }
+        case 'linux64': {
+            return 'linux';
+        }
+        case 'win64': {
+            return 'windows';
+        }
+        default: {
+            throw new Error(`Hermes does not offer precompiled ${os} binaries.`);
+        }
+    }
 };
 
 const predictUrl = (version, os) => {
-	const fileName = predictFileName(os);
-	const majorVersion = parseInt(version.split('.')[0]);
-	const minorVersion = parseInt(version.split('.')[1]);
-	const suffix = majorVersion > 0 || minorVersion >= 13 ? '' : `-v${version}`;
-	const url = `https://github.com/facebook/hermes/releases/download/v${version}/hermes-cli-${fileName}${suffix}.tar.gz`;
-	return url;
+    const fileName = predictFileName(os);
+    const majorVersion = parseInt(version.split('.')[0]);
+    const minorVersion = parseInt(version.split('.')[1]);
+    const suffix = majorVersion > 0 || minorVersion >= 13 ? '' : `-v${version}`;
+    const url = `https://github.com/facebook/hermes/releases/download/v${version}/hermes-cli-${fileName}${suffix}.tar.gz`;
+    return url;
 };
 
 module.exports = predictUrl;

@@ -14,9 +14,9 @@
 'use strict';
 
 const getSpecificVersion = (version) => {
-	// If we ever want to add logic that maps a given revision number
-	// to some other number, it can go here.
-	return version;
+    // If we ever want to add logic that maps a given revision number
+    // to some other number, it can go here.
+    return version;
 };
 
 module.exports = getSpecificVersion;

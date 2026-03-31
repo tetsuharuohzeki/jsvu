@@ -14,7 +14,7 @@
 'use strict';
 
 module.exports = {
-	name: 'GraalJS',
-	id: 'graaljs',
-	alias: false,
+    name: 'GraalJS',
+    id: 'graaljs',
+    alias: false,
 };

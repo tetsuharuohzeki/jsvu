@@ -14,35 +14,33 @@
 'use strict';
 
 const predictFileName = (os) => {
-	switch (os) {
-		case 'win32': {
-			return 'windows-x86.exe';
-		}
-		case 'win64': {
-			return 'windows-x86_64.exe';
-		}
-		case 'linux32': {
-			return 'linux-x86';
-		}
-		case 'linux64': {
-			return 'linux-x86_64';
-		}
-		case 'mac64':
-		case 'mac64arm': {
-			return 'darwin';
-		}
-		default: {
-			throw new Error(
-				`QuickJS does not offer precompiled ${os} binaries.`
-			);
-		}
-	}
+    switch (os) {
+        case 'win32': {
+            return 'windows-x86.exe';
+        }
+        case 'win64': {
+            return 'windows-x86_64.exe';
+        }
+        case 'linux32': {
+            return 'linux-x86';
+        }
+        case 'linux64': {
+            return 'linux-x86_64';
+        }
+        case 'mac64':
+        case 'mac64arm': {
+            return 'darwin';
+        }
+        default: {
+            throw new Error(`QuickJS does not offer precompiled ${os} binaries.`);
+        }
+    }
 };
 
 const predictUrl = (version, os) => {
-	const fileName = predictFileName(os);
-	const url = `https://github.com/quickjs-ng/quickjs/releases/download/v${version}/qjs-${fileName}`;
-	return url;
+    const fileName = predictFileName(os);
+    const url = `https://github.com/quickjs-ng/quickjs/releases/download/v${version}/qjs-${fileName}`;
+    return url;
 };
 
 module.exports = predictUrl;

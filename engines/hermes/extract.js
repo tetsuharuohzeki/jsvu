@@ -20,59 +20,53 @@ const tar = require('tar');
 const { Installer } = require('../../shared/installer.js');
 
 const extract = ({ filePath, binary, alias, os }) => {
-	return new Promise(async (resolve, reject) => {
-		const tmpPath = path.dirname(filePath);
-		await tar.extract({
-			file: filePath,
-			cwd: tmpPath,
-		});
-		const installer = new Installer({
-			engine: binary,
-			path: tmpPath,
-		});
-		switch (os) {
-			case 'mac64':
-			case 'mac64arm':
-			case 'linux64': {
-				installer.installBinary({ 'hermes': binary });
-				installer.installBinary({ 'hermesc': `${binary}-compiler` });
-				break;
-			}
-			case 'win64': {
-				installer.installBinary(
-					{ 'hermes.exe': `${binary}.exe` },
-					{ symlink: false }
-				);
-				installer.installBinary(
-					{ 'hermesc.exe': `${binary}-compiler.exe` },
-					{ symlink: false }
-				);
-				installer.installLibraryGlob('*.dll');
-				installer.installScript({
-					name: `${binary}.cmd`,
-					symlink: false,
-					generateScript: (targetPath) => {
-						return `
+    return new Promise(async (resolve, reject) => {
+        const tmpPath = path.dirname(filePath);
+        await tar.extract({
+            file: filePath,
+            cwd: tmpPath,
+        });
+        const installer = new Installer({
+            engine: binary,
+            path: tmpPath,
+        });
+        switch (os) {
+            case 'mac64':
+            case 'mac64arm':
+            case 'linux64': {
+                installer.installBinary({ hermes: binary });
+                installer.installBinary({ hermesc: `${binary}-compiler` });
+                break;
+            }
+            case 'win64': {
+                installer.installBinary({ 'hermes.exe': `${binary}.exe` }, { symlink: false });
+                installer.installBinary({ 'hermesc.exe': `${binary}-compiler.exe` }, { symlink: false });
+                installer.installLibraryGlob('*.dll');
+                installer.installScript({
+                    name: `${binary}.cmd`,
+                    symlink: false,
+                    generateScript: (targetPath) => {
+                        return `
 							@echo off
 							"${targetPath}\\${binary}.exe" %*
 						`;
-					}
-				});
-				installer.installScript({
-					name: `${binary}-compiler.cmd`,
-					symlink: false,
-					generateScript: (targetPath) => {
-						return `
+                    },
+                });
+                installer.installScript({
+                    name: `${binary}-compiler.cmd`,
+                    symlink: false,
+                    generateScript: (targetPath) => {
+                        return `
 							@echo off
 							"${targetPath}\\${binary}-compiler.exe" %*
 						`;
-					}
-				});
-				break;
-			}
-		}
-		resolve();
-	});
+                    },
+                });
+                break;
+            }
+        }
+        resolve();
+    });
 };
 
 module.exports = extract;

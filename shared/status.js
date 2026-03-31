@@ -22,32 +22,29 @@ const jsvuBinPath = config.binPath;
 const statusFilePath = `${jsvuPath}/status.json`;
 
 const getStatus = () => {
-	try {
-		// Upgrade existing, old installations.
-		fs.mkdirSync(jsvuBinPath, {
-			recursive: true,
-		});
-		return require(statusFilePath);
-	} catch (error) {
-		return {};
-	}
+    try {
+        // Upgrade existing, old installations.
+        fs.mkdirSync(jsvuBinPath, {
+            recursive: true,
+        });
+        return require(statusFilePath);
+    } catch (error) {
+        return {};
+    }
 };
 
 const setStatus = (status) => {
-	fs.mkdirSync(jsvuBinPath, {
-		recursive: true,
-	});
-	// Don’t store one-off CLI args in the persistent configuration.
-	const statusCopy = { ...status };
-	delete statusCopy.engine;
-	delete statusCopy.version;
-	fs.writeFileSync(
-		statusFilePath,
-		JSON.stringify(statusCopy, null, '\t')
-	);
+    fs.mkdirSync(jsvuBinPath, {
+        recursive: true,
+    });
+    // Don’t store one-off CLI args in the persistent configuration.
+    const statusCopy = { ...status };
+    delete statusCopy.engine;
+    delete statusCopy.version;
+    fs.writeFileSync(statusFilePath, JSON.stringify(statusCopy, null, '\t'));
 };
 
 module.exports = {
-	getStatus,
-	setStatus,
+    getStatus,
+    setStatus,
 };

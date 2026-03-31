@@ -16,12 +16,12 @@
 const extractZip = require('extract-zip');
 
 const unzip = ({ from, to }) => {
-	const promise = extractZip(from, { dir: to });
-	const caught = promise.catch((e) => {
-		console.log(e);
-		throw e;
-	});
-	return caught;
+    const promise = extractZip(from, { dir: to });
+    const caught = promise.catch((e) => {
+        console.log(e);
+        throw e;
+    });
+    return caught;
 };
 
 module.exports = unzip;

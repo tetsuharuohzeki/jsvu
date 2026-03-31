@@ -14,31 +14,29 @@
 'use strict';
 
 const predictFileName = (os) => {
-	switch (os) {
-		case 'mac64': {
-			return 'macos';
-		}
-		case 'linux64': {
-			return 'linux';
-		}
-		case 'win64': {
-			return 'windows';
-		}
-		default: {
-			throw new Error(
-				`GraalJS does not offer precompiled ${os} binaries.`
-			);
-		}
-	}
+    switch (os) {
+        case 'mac64': {
+            return 'macos';
+        }
+        case 'linux64': {
+            return 'linux';
+        }
+        case 'win64': {
+            return 'windows';
+        }
+        default: {
+            throw new Error(`GraalJS does not offer precompiled ${os} binaries.`);
+        }
+    }
 };
 
 const predictUrl = (version, os) => {
-	const fileName = predictFileName(os);
-	const ext = os.startsWith('win') ? 'zip' : 'tar.gz';
-	const majorVersion = parseInt(version.split('.')[0]);
-	const prefix = majorVersion >= 23 ? 'graal-' : 'vm-';
-	const url = `https://github.com/oracle/graaljs/releases/download/${prefix}${version}/graaljs-${version}-${fileName}-amd64.${ext}`;
-	return url;
+    const fileName = predictFileName(os);
+    const ext = os.startsWith('win') ? 'zip' : 'tar.gz';
+    const majorVersion = parseInt(version.split('.')[0]);
+    const prefix = majorVersion >= 23 ? 'graal-' : 'vm-';
+    const url = `https://github.com/oracle/graaljs/releases/download/${prefix}${version}/graaljs-${version}-${fileName}-amd64.${ext}`;
+    return url;
 };
 
 module.exports = predictUrl;

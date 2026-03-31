@@ -16,24 +16,22 @@
 const { getMacOsName } = require('./get-macos-name.mjs');
 
 const predictUrl = (version, os) => {
-	switch (os) {
-		case 'mac64':
-		case 'mac64arm': {
-			const name = getMacOsName();
-			return `https://s3-us-west-2.amazonaws.com/minified-archives.webkit.org/mac-${name}-x86_64-arm64-release/${version}@main.zip`;
-		}
-		case 'linux64': {
-			return `https://webkitgtk.org/jsc-built-products/x86_64/release/${version}@main.zip`;
-		}
-		case 'win64': {
-			return `https://s3-us-west-2.amazonaws.com/archives.webkit.org/wincairo-x86_64-release/${version}@main.zip`;
-		}
-		default: {
-			throw new Error(
-				`JavaScriptCore does not offer precompiled ${os} binaries.`
-			);
-		}
-	}
+    switch (os) {
+        case 'mac64':
+        case 'mac64arm': {
+            const name = getMacOsName();
+            return `https://s3-us-west-2.amazonaws.com/minified-archives.webkit.org/mac-${name}-x86_64-arm64-release/${version}@main.zip`;
+        }
+        case 'linux64': {
+            return `https://webkitgtk.org/jsc-built-products/x86_64/release/${version}@main.zip`;
+        }
+        case 'win64': {
+            return `https://s3-us-west-2.amazonaws.com/archives.webkit.org/wincairo-x86_64-release/${version}@main.zip`;
+        }
+        default: {
+            throw new Error(`JavaScriptCore does not offer precompiled ${os} binaries.`);
+        }
+    }
 };
 
 module.exports = predictUrl;

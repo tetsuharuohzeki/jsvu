@@ -22,14 +22,10 @@ const config = require('../../shared/config.js');
 const jsvuBinPath = config.binPath;
 
 const test = async ({ binary, alias }) => {
-	const path = tempy.file();
-	fs.writeFileSync(path, `print('Hi!');\n`);
-	console.assert(
-		(await execa(`${jsvuBinPath}/${binary}`, [path])).stdout === 'Hi!'
-	);
-	console.assert(
-		(await execa(`${jsvuBinPath}/${alias}`, [path])).stdout === 'Hi!'
-	);
+    const path = tempy.file();
+    fs.writeFileSync(path, `print('Hi!');\n`);
+    console.assert((await execa(`${jsvuBinPath}/${binary}`, [path])).stdout === 'Hi!');
+    console.assert((await execa(`${jsvuBinPath}/${alias}`, [path])).stdout === 'Hi!');
 };
 
 module.exports = test;

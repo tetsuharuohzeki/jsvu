@@ -16,13 +16,13 @@
 const get = require('../../shared/get.js');
 
 const getLatestVersion = async () => {
-	const url = 'https://api.github.com/repos/quickjs-ng/quickjs/releases/latest';
-	const response = await get(url, {
-		json: true,
-	});
-	const data = response.body;
-	const version = data.tag_name.replace(/^v/, '');
-	return version;
+    const url = 'https://api.github.com/repos/quickjs-ng/quickjs/releases/latest';
+    const response = await get(url, {
+        json: true,
+    });
+    const data = response.body;
+    const version = data.tag_name.replace(/^v/, '');
+    return version;
 };
 
 module.exports = getLatestVersion;

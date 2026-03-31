@@ -14,9 +14,9 @@
 'use strict';
 
 const getSpecificVersion = (version) => {
-	// If we ever want to add logic that maps e.g. `'0.1'` to the latest
-	// available version in that range (e.g. `'0.1.0'`), it can go here.
-	return version;
+    // If we ever want to add logic that maps e.g. `'0.1'` to the latest
+    // available version in that range (e.g. `'0.1.0'`), it can go here.
+    return version;
 };
 
 module.exports = getSpecificVersion;
