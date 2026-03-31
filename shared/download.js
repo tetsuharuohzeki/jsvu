@@ -13,46 +13,47 @@
 
 'use strict';
 
-const fs = require('fs');
+const fs = require('node:fs');
+const { finished } = require('node:stream/promises');
+const { Readable } = require('node:stream');
 
 const ProgressBar = require('progress');
 const tempy = require('tempy');
 
-const get = require('./get.js');
+async function download2(url) {
+	const res = await fetch(url);
+	if (!res.ok) {
+		throw new Error(`Download error: .status=${res.status}`);
+	}
 
-const download = (url) => {
-	return new Promise(async (resolve, reject) => {
-		try {
-			const bar = new ProgressBar('  [:bar] :percent', {
-				complete: '=',
-				incomplete: ' ',
-				width: 72,
-				total: 100,
-			});
-			const response = await get(url, {
-				// Download as binary file.
-				encoding: null,
-			}).on('downloadProgress', (progress) => {
-				bar.update(progress.percent);
-			}).on('error', (error) => {
-				reject(`Download error: ${error}`);
-			});
-			// Clear the progress bar.
-			console.log('\x1B[1A\x1B[2K\x1B[1A');
-			const buffer = response.body;
-			// Passing in `name` ensures that `tempy` creates a temporary directory
-			// in which the file is created. Thus, we can later extract the archive
-			// within this same directory and use wildcards to move its contents,
-			// knowing that there are no other files in the directory.
-			const filePath = tempy.file({
-				name: 'jsvutmpf',
-			});
-			fs.writeFileSync(filePath, buffer);
-			resolve(filePath);
-		} catch (error) {
-			reject(error);
-		}
+	const bar = new ProgressBar('  [:bar] :percent', {
+		complete: '=',
+		incomplete: ' ',
+		width: 72,
+		total: 100,
 	});
-};
+	const totalSize = res.headers.get('content-length');
+	let recievedSize = 0;
 
-module.exports = download;
+	const filePath = tempy.file({
+		name: 'jsvutmpf',
+	});
+	const fileTo = fs.createWriteStream(filePath)
+	const body = res.body;
+	const bodyStream = Readable.fromWeb(body);
+
+	bodyStream.on('data', (data) => {
+		recievedSize += data.length;
+		const percent = recievedSize / totalSize;
+		bar.update(percent);
+	});
+
+	// Clear the progress bar.
+	console.log('\x1B[1A\x1B[2K\x1B[1A');
+
+	const writer = bodyStream.pipe(fileTo);
+	await finished(writer);
+	return filePath;
+}
+
+module.exports = download2;
