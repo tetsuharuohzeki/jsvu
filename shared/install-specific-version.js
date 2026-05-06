@@ -15,7 +15,7 @@
 
 const { setStatus } = require('../shared/status.js');
 const log = require('../shared/log.js');
-const download = require('../shared/download.js');
+const { download } = require('../shared/download.mts');
 
 const installSpecificEngineVersion = async ({ status, name, id, alias }) => {
     const getSpecificVersion = require(`../engines/${id}/get-specific-version.js`);

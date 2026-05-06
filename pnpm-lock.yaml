@@ -41,6 +41,9 @@ importers:
       tildify:
         specifier: ^2.0.0
         version: 2.0.0
+      undici:
+        specifier: ^8.1.0
+        version: 8.1.0
       untildify:
         specifier: ^4.0.0
         version: 4.0.0
@@ -51,6 +54,9 @@ importers:
       '@tsconfig/strictest':
         specifier: ^2.0.8
         version: 2.0.8
+      '@types/progress':
+        specifier: ^2.0.7
+        version: 2.0.7
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
@@ -76,6 +82,9 @@ packages:
 
   '@types/node@25.5.0':
     resolution: {integrity: sha512-jp2P3tQMSxWugkCUKLRPVUpGaL5MVFwF8RDuSRztfwgN1wmqJeMSbKlnEtQqU8UrhTmzEmZdu2I6v2dpp7XIxw==}
+
+  '@types/progress@2.0.7':
+    resolution: {integrity: sha512-iadjw02vte8qWx7U0YM++EybBha2CQLPGu9iJ97whVgJUT5Zq9MjAPYUnbfRI2Kpehimf1QjFJYxD0t8nqzu5w==}
 
   '@types/responselike@1.0.3':
     resolution: {integrity: sha512-H/+L+UkTV33uf49PH5pCAUBVPNj2nDBXTN+qS1dOwyyg24l3CcicicCA7ca+HMvJBZcFgl5r8e+RR6elsb4Lyw==}
@@ -669,6 +678,10 @@ packages:
   undici-types@7.18.2:
     resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
 
+  undici@8.1.0:
+    resolution: {integrity: sha512-E9MkTS4xXLnRPYqxH2e6Hr2/49e7WFDKczKcCaFH4VaZs2iNvHMqeIkyUAD9vM8kujy9TjVrRlQ5KkdEJxB2pw==}
+    engines: {node: '>=22.19.0'}
+
   unique-string@1.0.0:
     resolution: {integrity: sha512-ODgiYu03y5g76A1I9Gt0/chLCzQjvzDy7DsZGsLOE/1MrF6wriEskSncj1+/C58Xk/kPZDppSctDybCwOSaGAg==}
     engines: {node: '>=4'}
@@ -742,6 +755,10 @@ snapshots:
   '@types/node@25.5.0':
     dependencies:
       undici-types: 7.18.2
+
+  '@types/progress@2.0.7':
+    dependencies:
+      '@types/node': 25.5.0
 
   '@types/responselike@1.0.3':
     dependencies:
@@ -1311,6 +1328,8 @@ snapshots:
   typescript@6.0.3: {}
 
   undici-types@7.18.2: {}
+
+  undici@8.1.0: {}
 
   unique-string@1.0.0:
     dependencies:

@@ -13,14 +13,17 @@
 
 'use strict';
 
-const fs = require('node:fs');
-const { finished } = require('node:stream/promises');
-const { Readable } = require('node:stream');
+import * as assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { finished } from 'node:stream/promises';
+import { ReadableStream } from 'node:stream/web';
+import { Readable } from 'node:stream';
 
-const ProgressBar = require('progress');
-const tempy = require('tempy');
+import { default as ProgressBar } from 'progress';
+import { default as tempy } from 'tempy';
+import { fetch } from 'undici';
 
-async function download2(url) {
+export async function download(url: string) {
     const res = await fetch(url);
     if (!res.ok) {
         throw new Error(`Download error: .status=${res.status}`);
@@ -32,14 +35,15 @@ async function download2(url) {
         width: 72,
         total: 100,
     });
-    const totalSize = res.headers.get('content-length');
+    const totalSize: number = +(res.headers.get('content-length') ?? '1');
     let recievedSize = 0;
 
     const filePath = tempy.file({
         name: 'jsvutmpf',
     });
     const fileTo = fs.createWriteStream(filePath);
-    const body = res.body;
+    const body: ReadableStream<Uint8Array<ArrayBuffer>> | null = res.body;
+    assert.ok(body);
     const bodyStream = Readable.fromWeb(body);
 
     bodyStream.on('data', (data) => {
@@ -55,5 +59,3 @@ async function download2(url) {
     await finished(writer);
     return filePath;
 }
-
-module.exports = download2;
