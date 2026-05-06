@@ -1,0 +1,18 @@
+{
+    "extends": "@tsconfig/strictest/tsconfig.json",
+    "compilerOptions": {
+        // based on https://nodejs.org/api/typescript.html
+        "noEmit": true,
+        "target": "esnext",
+        "module": "nodenext",
+        "rewriteRelativeImportExtensions": true,
+        "erasableSyntaxOnly": true,
+        "verbatimModuleSyntax": true,
+
+        "allowJs": true
+    },
+    "include": [
+        "engines/**/*",
+        "shared/**/*"
+    ]
+}
