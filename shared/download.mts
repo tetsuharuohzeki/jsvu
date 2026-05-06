@@ -53,7 +53,7 @@ export async function download(url: string) {
     });
 
     // Clear the progress bar.
-    console.log('\x1B[1A\x1B[2K\x1B[1A');
+    bar.terminate();
 
     const writer = bodyStream.pipe(fileTo);
     await finished(writer);
